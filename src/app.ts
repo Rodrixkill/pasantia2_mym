@@ -4,6 +4,8 @@ import morgan from 'morgan'
 // Routes
 import IndexRoutes from './routes/index.routes'
 import PostRoutes from './routes/post.routes'
+// middleware
+import {requireJwtMiddleware} from './jwt-simple/customMiddleware'
 
 export class App {
     app: Application;
@@ -27,6 +29,7 @@ export class App {
     }
 
     private routes() {
+        this.app.use('/posts',requireJwtMiddleware);
         this.app.use(IndexRoutes);
         this.app.use('/posts', PostRoutes);
     }
