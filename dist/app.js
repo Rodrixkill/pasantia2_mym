@@ -18,6 +18,8 @@ const morgan_1 = __importDefault(require("morgan"));
 // Routes
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
 const post_routes_1 = __importDefault(require("./routes/post.routes"));
+// middleware
+const customMiddleware_1 = require("./jwt-simple/customMiddleware");
 class App {
     constructor(port) {
         this.port = port;
@@ -34,6 +36,7 @@ class App {
         this.app.use(express_1.default.json());
     }
     routes() {
+        this.app.use('/posts', customMiddleware_1.requireJwtMiddleware);
         this.app.use(index_routes_1.default);
         this.app.use('/posts', post_routes_1.default);
     }

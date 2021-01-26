@@ -16,7 +16,7 @@ function connect() {
         const connection = yield promise_1.createPool({
             host: 'localhost',
             user: 'root',
-            password: '6163936',
+            password: 'pass',
             database: 'node_mysql_ts',
             connectionLimit: 10
         });
