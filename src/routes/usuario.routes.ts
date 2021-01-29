@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getUsuarios, createUsuario, getUsuario, deleteUsuario, updateUsuario } from '../controllers/usuario.controller'
+import { newPassword,getUsuarios, createUsuario, getUsuario, deleteUsuario, updateUsuario } from '../controllers/usuario.controller'
 
 const router = Router();
 
@@ -12,4 +12,7 @@ router.route('/:id')
     .delete(deleteUsuario)
     .put(updateUsuario);
 
+router.route('/pwd')
+    .put(newPassword);
+    
 export default router;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-
+import bcrypt from "bcryptjs";
 // DB
 import { connect } from '../database'
 // Interfaces
@@ -18,8 +18,9 @@ export async function getUsuarios(req: Request, res: Response): Promise<Response
 }
 
 export async function createUsuario(req: Request, res: Response) {
-    const newUsuario: Usuario = req.body;
+    let newUsuario: Usuario = req.body;
     try {
+        newUsuario.contrasena = await encrypt(newUsuario.contrasena);
         const conn = await connect();
         const results = await conn.query('INSERT INTO usuario SET ? ', [newUsuario]);
         res.json({
@@ -47,7 +48,7 @@ export async function deleteUsuario(req: Request, res: Response) {
     const id = req.params.id;
     try {
         const conn = await connect();
-        const results = await conn.query('DELETE FROM empresa WHERE ci = ?', [id]);
+        const results = await conn.query('DELETE FROM usuario WHERE ci = ?', [id]);
         res.json({
             message: results
         });
@@ -63,7 +64,7 @@ export async function updateUsuario(req: Request, res: Response) {
     const updateUsuario: Usuario = req.body;
     try {
         const conn = await connect();
-        const results = await conn.query('UPDATE empresa set ? WHERE ci = ?', [updateUsuario, id]);
+        const results = await conn.query('UPDATE usuario set ? WHERE ci = ?', [updateUsuario, id]);
         res.json({
             message: results
         });
@@ -73,3 +74,26 @@ export async function updateUsuario(req: Request, res: Response) {
         return res.json(e);
     }
 }
+
+export async function newPassword(req: Request, res: Response) {
+    let user=req.body.user;
+    let newContrasena=req.body.contrasena;
+    try {
+        newContrasena = await encrypt(newContrasena);
+        const conn = await connect();
+        const results = await conn.query('UPDATE usuario set ? WHERE ci = ?', [newContrasena, user]);
+        res.json({
+            message: results
+        });
+    }
+    catch (e) {
+        console.log(e)
+        return res.json(e);
+    }
+}
+
+
+async function encrypt(pass: string): Promise<string>{
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(pass, salt);
+ }
