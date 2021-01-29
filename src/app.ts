@@ -4,6 +4,8 @@ import morgan from 'morgan'
 // Routes
 import IndexRoutes from './routes/index.routes'
 import PostRoutes from './routes/post.routes'
+import EmpresaRoutes from './routes/empresa.routes'
+import UsuarioRoutes from './routes/usuario.routes'
 // middleware
 import {requireJwtMiddleware} from './jwt-simple/customMiddleware'
 
@@ -32,6 +34,8 @@ export class App {
         this.app.use('/posts',requireJwtMiddleware);
         this.app.use(IndexRoutes);
         this.app.use('/posts', PostRoutes);
+        this.app.use('/empresa', EmpresaRoutes);
+        this.app.use('/usuario', UsuarioRoutes);
     }
 
     async listen(): Promise<void> {
