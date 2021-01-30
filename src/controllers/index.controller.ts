@@ -10,22 +10,23 @@ export async function indexWelcome(req: Request, res: Response): Promise<any> {
 	if (username && password) {
       try {
          const conn = await connect();
-         const results: any = await conn.query('SELECT * FROM accounts WHERE username = ?', username);
+         const results: any = await conn.query('SELECT * FROM usuario WHERE usuario = ?', username);
          if(results[0].length > 0){
             const validatePass= await validate(password,results[0][0].password);
+            const ciUser: string=  results[0][0].ci;
             console.log(validatePass);
             if(validatePass){
                const session = encodeSession(SECRET_KEY_HERE, {
-                  id: 2,
+                  ci: ciUser,
                   username: username      
                });
-               return res.status(201).json(session);
+               return res.status(201).json([session,results[0][0].permisos]);
             }
             else{
-               return res.json(results[0][1]);
+               return res.json('Contraseña incorrecta');
             }     
          } else {
-            return res.json('Incorrect password');
+            return res.json('No existe el usuario');
          }
       }
       catch (e) {
