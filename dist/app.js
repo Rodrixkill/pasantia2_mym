@@ -18,6 +18,10 @@ const morgan_1 = __importDefault(require("morgan"));
 // Routes
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
 const post_routes_1 = __importDefault(require("./routes/post.routes"));
+const empresa_routes_1 = __importDefault(require("./routes/empresa.routes"));
+const usuario_routes_1 = __importDefault(require("./routes/usuario.routes"));
+const trabajador_routes_1 = __importDefault(require("./routes/trabajador.routes"));
+const gestion_routes_1 = __importDefault(require("./routes/gestion.routes"));
 // middleware
 const customMiddleware_1 = require("./jwt-simple/customMiddleware");
 class App {
@@ -37,8 +41,16 @@ class App {
     }
     routes() {
         this.app.use('/posts', customMiddleware_1.requireJwtMiddleware);
+        this.app.use('/empresa', customMiddleware_1.requireJwtMiddleware);
+        this.app.use('/usuario', customMiddleware_1.requireJwtMiddleware);
+        this.app.use('/gestion', customMiddleware_1.requireJwtMiddleware);
+        this.app.use('/trabajador', customMiddleware_1.requireJwtMiddleware);
         this.app.use(index_routes_1.default);
         this.app.use('/posts', post_routes_1.default);
+        this.app.use('/empresa', empresa_routes_1.default);
+        this.app.use('/usuario', usuario_routes_1.default);
+        this.app.use('/gestion', gestion_routes_1.default);
+        this.app.use('/trabajador', trabajador_routes_1.default);
     }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {

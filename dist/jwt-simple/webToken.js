@@ -7,7 +7,7 @@ function encodeSession(secretKey, partialSession) {
     const algorithm = "HS512";
     // Determine when the token should expire
     const issued = Date.now();
-    const fifteenMinutesInMs = 15 * 60 * 1000;
+    const fifteenMinutesInMs = 24 * 60 * 60 * 1000;
     const expires = issued + fifteenMinutesInMs;
     const session = Object.assign(Object.assign({}, partialSession), { issued: issued, expires: expires });
     return {
