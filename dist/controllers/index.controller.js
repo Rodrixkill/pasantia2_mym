@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.indexWelcome = void 0;
 const webToken_1 = require("../jwt-simple/webToken");
 const database_1 = require("../database");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const SECRET_KEY_HERE = "m&m-enterprise";
 function indexWelcome(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -20,16 +24,24 @@ function indexWelcome(req, res) {
         if (username && password) {
             try {
                 const conn = yield database_1.connect();
-                const results = yield conn.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password]);
+                const results = yield conn.query('SELECT * FROM usuario WHERE usuario = ?', username);
                 if (results[0].length > 0) {
-                    const session = webToken_1.encodeSession(SECRET_KEY_HERE, {
-                        id: 2,
-                        username: username
-                    });
-                    return res.status(201).json(session);
+                    const validatePass = yield validate(password, results[0][0].password);
+                    const ciUser = results[0][0].ci;
+                    console.log(validatePass);
+                    if (validatePass) {
+                        const session = webToken_1.encodeSession(SECRET_KEY_HERE, {
+                            ci: ciUser,
+                            username: username
+                        });
+                        return res.status(201).json([session, results[0][0].permisos]);
+                    }
+                    else {
+                        return res.json('Contraseña incorrecta');
+                    }
                 }
                 else {
-                    return res.json('Username and password incorrect');
+                    return res.json('No existe el usuario');
                 }
             }
             catch (e) {
@@ -42,3 +54,17 @@ function indexWelcome(req, res) {
     });
 }
 exports.indexWelcome = indexWelcome;
+function encrypt(pass) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const salt = yield bcryptjs_1.default.genSalt(10);
+        return yield bcryptjs_1.default.hash(pass, salt);
+    });
+}
+function validate(pass, sql) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(pass);
+        console.log(sql);
+        return yield bcryptjs_1.default.compare(pass, sql);
+    });
+}
+;
