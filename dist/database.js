@@ -14,11 +14,10 @@ const promise_1 = require("mysql2/promise");
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         const connection = yield promise_1.createPool({
-            host: 'localhost',
-            user: 'root',
-            password: 'pass',
-            database: 'node_mysql_ts',
-            connectionLimit: 10
+            host: 'mysql.sistema.mym.com.bo',
+            user: 'mymcombo',
+            password: 'vkLY!Wzh',
+            database: 'mysqlsistema'
         });
         return connection;
     });

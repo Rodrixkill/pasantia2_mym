@@ -5,8 +5,7 @@ export async function connect(): Promise<Pool> {
         host: 'mysql.sistema.mym.com.bo',
         user: 'mymcombo',
         password: 'vkLY!Wzh',
-        database: 'mysqlsistema',
-        connectionLimit: 10
+        database: 'mysqlsistema'
     });
     return connection;
 }
