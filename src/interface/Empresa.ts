@@ -1,13 +1,12 @@
 export interface Empresa {
     id?: number;
-    /*razon_social: string;
+    razon_social: string;
     sigla: string;
     nit: number;
     direccion: string;
     ciudad: string;
     telefono: string;
     representante_legal: string;
-    ci_representante_legal: string;*/
-    descripcion:string;
+    ci_representante_legal: string;
 
 }

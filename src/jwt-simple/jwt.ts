@@ -1,11 +1,6 @@
-export interface User {
-    id: number;
-    username: string;
-    password: string;
-}
 
 export interface Session {
-    id: number;
+    ci: string;
     username: string;
     /**
      * Timestamp indicating when the session was created, in Unix milliseconds.

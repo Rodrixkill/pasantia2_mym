@@ -6,6 +6,8 @@ import IndexRoutes from './routes/index.routes'
 import PostRoutes from './routes/post.routes'
 import EmpresaRoutes from './routes/empresa.routes'
 import UsuarioRoutes from './routes/usuario.routes'
+import TrabajadorRoutes from './routes/trabajador.routes'
+import GestionRoutes from './routes/gestion.routes'
 // middleware
 import {requireJwtMiddleware} from './jwt-simple/customMiddleware'
 
@@ -32,10 +34,16 @@ export class App {
 
     private routes() {
         this.app.use('/posts',requireJwtMiddleware);
+        this.app.use('/empresa', requireJwtMiddleware);
+        this.app.use('/usuario', requireJwtMiddleware);
+        this.app.use('/gestion', requireJwtMiddleware);
+        this.app.use('/trabajador', requireJwtMiddleware);
         this.app.use(IndexRoutes);
         this.app.use('/posts', PostRoutes);
         this.app.use('/empresa', EmpresaRoutes);
         this.app.use('/usuario', UsuarioRoutes);
+        this.app.use('/gestion', GestionRoutes);
+        this.app.use('/trabajador', TrabajadorRoutes);
     }
 
     async listen(): Promise<void> {
