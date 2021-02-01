@@ -1,13 +1,20 @@
 export interface Trabajador {
     ci: string;
+    codigo: number;
+    sexo: string;
     empresa: number;
+    cargo: string;
     telefono: string;
-    representante_legal: number;
-    ci_representante_legal: string;
+    direccion: string;
     fecha_nacimiento: Date;
+    edad: number;
+    nombre: string;
     primer_apellido: string;
     segundo_apellido: string;
     correo_electronico: string;
+    usuario: string;
     contrasena: string;
-    ano_activo: number;
+    fecha_ingreso: Date;
+    antiguedad: number;
+    activo: number;
 }
