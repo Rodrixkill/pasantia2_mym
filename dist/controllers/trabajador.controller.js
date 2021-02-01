@@ -14,9 +14,11 @@ exports.getTrabajadorByGestion = exports.getTrabajadorByEmpresa = exports.update
 const database_1 = require("../database");
 function getTrabajadores(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        const empresa = req.body.empresa;
         try {
             const conn = yield database_1.connect();
-            const posts = yield conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador');
+            //const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo FROM trabajador WHERE empresa = ?',[empresa]);
+            const posts = yield conn.query('SELECT *  FROM trabajador');
             return res.json(posts[0]);
         }
         catch (e) {
@@ -47,7 +49,7 @@ function getTrabajador(req, res) {
         const id = req.params.id;
         try {
             const conn = yield database_1.connect();
-            const posts = yield conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador WHERE ci = ?', [id]);
+            const posts = yield conn.query('SELECT *  FROM trabajador WHERE ci = ?', [id]);
             res.json(posts[0]);
         }
         catch (e) {
@@ -97,7 +99,7 @@ function getTrabajadorByEmpresa(req, res) {
         const empresa = req.params.empresa;
         try {
             const conn = yield database_1.connect();
-            const posts = yield conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador WHERE empresa = ?', [empresa]);
+            const posts = yield conn.query('SELECT * FROM trabajador WHERE empresa = ?', [empresa]);
             res.json(posts[0]);
         }
         catch (e) {
@@ -113,7 +115,7 @@ function getTrabajadorByGestion(req, res) {
         const gestion = req.params.gestion;
         try {
             const conn = yield database_1.connect();
-            const posts = yield conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo FROM trabajador INNER JOIN gestion ON trabajador.ci = gestion.ci WHERE trabajador.empresa = ? AND ( trabajador.ano_activo = ? OR gestion.gestion = ?)', [empresa, gestion, gestion]);
+            const posts = yield conn.query('SELECT * FROM trabajador INNER JOIN gestion ON trabajador.ci = gestion.ci WHERE trabajador.empresa = ? AND ( trabajador.ano_activo = ? OR gestion.gestion = ?)', [empresa, gestion, gestion]);
             res.json(posts[0]);
         }
         catch (e) {
