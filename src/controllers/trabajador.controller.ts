@@ -6,9 +6,10 @@ import { connect } from '../database'
 import { Trabajador } from '../interface/Trabajador'
 
 export async function getTrabajadores(req: Request, res: Response): Promise<Response | void> {
+    const empresa = req.body.empresa;
     try {
         const conn = await connect();
-        const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador');
+        const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo FROM trabajador WHERE empresa = ?',[empresa]);
         return res.json(posts[0]);
     }
     catch (e) {
