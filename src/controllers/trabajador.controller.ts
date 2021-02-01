@@ -8,7 +8,7 @@ import { Trabajador } from '../interface/Trabajador'
 export async function getTrabajadores(req: Request, res: Response): Promise<Response | void> {
     try {
         const conn = await connect();
-        const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador');
+        const posts = await conn.query('SELECT *  FROM trabajador');
         return res.json(posts[0]);
     }
     catch (e) {
@@ -35,7 +35,7 @@ export async function getTrabajador(req: Request, res: Response) {
     const id = req.params.id;
     try {
         const conn = await connect();
-        const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador WHERE ci = ?', [id]);
+        const posts = await conn.query('SELECT *  FROM trabajador WHERE ci = ?', [id]);
         res.json(posts[0]);
     } catch (e) {
         console.log(e)
@@ -78,7 +78,7 @@ export async function getTrabajadorByEmpresa(req: Request, res: Response) {
     const empresa = req.params.empresa;
     try {
         const conn = await connect();
-        const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo  FROM trabajador WHERE empresa = ?', [empresa]);
+        const posts = await conn.query('SELECT * FROM trabajador WHERE empresa = ?', [empresa]);
         res.json(posts[0]);
     } catch (e) {
         console.log(e)
@@ -90,7 +90,7 @@ export async function getTrabajadorByGestion(req: Request, res: Response) {
     const gestion = req.params.gestion;
     try {
         const conn = await connect();
-        const posts = await conn.query('SELECT trabajador.ci,trabajador.empresa,trabajador.telefono,trabajador.representante_legal,trabajador.ci_representante_legal,trabajador.fecha_nacimiento,trabajador.primer_apellido,trabajador.segundo_apellido,trabajador.correo_electronico,trabajador.contrasena,trabajador.ano_activo FROM trabajador INNER JOIN gestion ON trabajador.ci = gestion.ci WHERE trabajador.empresa = ? AND ( trabajador.ano_activo = ? OR gestion.gestion = ?)', [empresa,gestion,gestion]);
+        const posts = await conn.query('SELECT * FROM trabajador INNER JOIN gestion ON trabajador.ci = gestion.ci WHERE trabajador.empresa = ? AND ( trabajador.ano_activo = ? OR gestion.gestion = ?)', [empresa,gestion,gestion]);
         res.json(posts[0]);
     } catch (e) {
         console.log(e)

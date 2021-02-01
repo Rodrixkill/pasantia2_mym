@@ -8,5 +8,5 @@ export interface Empresa {
     telefono: string;
     representante_legal: string;
     ci_representante_legal: string;
-
+    activo: number;
 }
