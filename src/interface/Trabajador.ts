@@ -1,3 +1,5 @@
+import { StringLiteralLike } from "typescript";
+
 export interface Trabajador {
     ci: string;
     codigo: number;
@@ -17,4 +19,7 @@ export interface Trabajador {
     fecha_ingreso: Date;
     antiguedad: number;
     activo: number;
+    origen: string;
+    estado_civil: string;
+    profesion: string
 }

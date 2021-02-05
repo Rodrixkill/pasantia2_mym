@@ -9,4 +9,5 @@ export interface Empresa {
     representante_legal: string;
     ci_representante_legal: string;
     activo: number;
+    fecha_alta: Date;
 }
