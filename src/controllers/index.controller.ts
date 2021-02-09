@@ -7,12 +7,16 @@ const SECRET_KEY_HERE="m&m-enterprise";
 export async function indexWelcome(req: Request, res: Response): Promise<any> {
    var username = req.body.username;
    var password = req.body.password;
+   const prueba = await encrypt("password");
 	if (username && password) {
       try {
          const conn = await connect();
          const results: any = await conn.query('SELECT * FROM usuario WHERE usuario = ?', username);
+         console.log(results[0][0]);
          if(results[0].length > 0){
-            const validatePass= await validate(password,results[0][0].password);
+            console.log(password);
+            console.log(prueba);
+            const validatePass= await validate(password,results[0][0].contrasena);
             const ciUser: string=  results[0][0].ci;
             console.log(validatePass);
             if(validatePass){
