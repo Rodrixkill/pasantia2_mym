@@ -8,6 +8,7 @@ import EmpresaRoutes from './routes/empresa.routes'
 import UsuarioRoutes from './routes/usuario.routes'
 import TrabajadorRoutes from './routes/trabajador.routes'
 import GestionRoutes from './routes/gestion.routes'
+import ContrasenaRoutes from './routes/contrasena.routes'
 // middleware
 import {requireJwtMiddleware} from './jwt-simple/customMiddleware'
 
@@ -40,6 +41,7 @@ export class App {
         this.app.use('/trabajador', requireJwtMiddleware);
         this.app.use(IndexRoutes);
         this.app.use('/posts', PostRoutes);
+        this.app.use('/contrasena', ContrasenaRoutes);
         this.app.use('/empresa', EmpresaRoutes);
         this.app.use('/usuario', UsuarioRoutes);
         this.app.use('/gestion', GestionRoutes);
