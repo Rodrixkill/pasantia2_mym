@@ -18,6 +18,11 @@ function connect() {
             user: 'mymcombo',
             password: 'vkLY!Wzh',
             database: 'mysqlsistema'
+            /*
+            host: 'localhost',
+            user: 'root',
+            password: 'pass',
+            database: 'prueba'*/
         });
         return connection;
     });

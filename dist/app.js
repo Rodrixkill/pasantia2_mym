@@ -22,6 +22,7 @@ const empresa_routes_1 = __importDefault(require("./routes/empresa.routes"));
 const usuario_routes_1 = __importDefault(require("./routes/usuario.routes"));
 const trabajador_routes_1 = __importDefault(require("./routes/trabajador.routes"));
 const gestion_routes_1 = __importDefault(require("./routes/gestion.routes"));
+const contrasena_routes_1 = __importDefault(require("./routes/contrasena.routes"));
 // middleware
 const customMiddleware_1 = require("./jwt-simple/customMiddleware");
 class App {
@@ -47,6 +48,7 @@ class App {
         this.app.use('/trabajador', customMiddleware_1.requireJwtMiddleware);
         this.app.use(index_routes_1.default);
         this.app.use('/posts', post_routes_1.default);
+        this.app.use('/contrasena', contrasena_routes_1.default);
         this.app.use('/empresa', empresa_routes_1.default);
         this.app.use('/usuario', usuario_routes_1.default);
         this.app.use('/gestion', gestion_routes_1.default);
