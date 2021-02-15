@@ -23,6 +23,7 @@ const usuario_routes_1 = __importDefault(require("./routes/usuario.routes"));
 const trabajador_routes_1 = __importDefault(require("./routes/trabajador.routes"));
 const gestion_routes_1 = __importDefault(require("./routes/gestion.routes"));
 const contrasena_routes_1 = __importDefault(require("./routes/contrasena.routes"));
+const cors_1 = __importDefault(require("cors"));
 // middleware
 const customMiddleware_1 = require("./jwt-simple/customMiddleware");
 class App {
@@ -37,6 +38,11 @@ class App {
         this.app.set('port', this.port || process.env.PORT || 3000);
     }
     middlewares() {
+        this.app.use(cors_1.default({
+            allowedHeaders: ['token', 'Content-Type', 'access-control-allow-headers', 'Content-length'],
+            exposedHeaders: ['X-JWT-Token', 'X-Renewed-JWT-Token'],
+            methods: ['POST', 'GET', 'DELETE', 'PUT']
+        }));
         this.app.use(morgan_1.default('dev'));
         this.app.use(express_1.default.json());
     }

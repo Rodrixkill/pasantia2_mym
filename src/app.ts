@@ -9,6 +9,7 @@ import UsuarioRoutes from './routes/usuario.routes'
 import TrabajadorRoutes from './routes/trabajador.routes'
 import GestionRoutes from './routes/gestion.routes'
 import ContrasenaRoutes from './routes/contrasena.routes'
+import cors from 'cors'
 // middleware
 import {requireJwtMiddleware} from './jwt-simple/customMiddleware'
 
@@ -29,6 +30,11 @@ export class App {
     }
 
     private middlewares() {
+        this.app.use(cors({
+            allowedHeaders: ['token','Content-Type','access-control-allow-headers','Content-length'],
+            exposedHeaders: ['X-JWT-Token','X-Renewed-JWT-Token'],
+            methods:['POST','GET','DELETE','PUT']
+        }));
         this.app.use(morgan('dev'));
         this.app.use(express.json());
     }
