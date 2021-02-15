@@ -13,10 +13,10 @@ router.route('/:id')
     .put(updateTrabajador);
 
 router.route('/empresa/:empresa')
-    .delete(getTrabajadorByEmpresa)
+    .get(getTrabajadorByEmpresa)
 
 router.route('/empresa/:empresa/gestion/:gestion')
-    .delete(getTrabajadorByEmpresa)
+    .get(getTrabajadorByEmpresa)
 
 
 export default router;
