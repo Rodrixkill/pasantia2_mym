@@ -31,7 +31,7 @@ export class App {
 
     private middlewares() {
         this.app.use(cors({
-            allowedHeaders: ['token','Content-Type','access-control-allow-headers','Content-length'],
+            allowedHeaders: ['X-JWT-Token','Content-Type','access-control-allow-headers','Content-length'],
             exposedHeaders: ['X-JWT-Token','X-Renewed-JWT-Token'],
             methods:['POST','GET','DELETE','PUT']
         }));
