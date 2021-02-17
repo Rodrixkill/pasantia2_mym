@@ -3,7 +3,7 @@ import { encodeSession } from "../jwt-simple/webToken";
 import { connect } from '../database'
 import bcrypt from "bcryptjs";
 import jwt from "jwt-simple";
-
+var nodemailer = require("nodemailer");
 var secret = 'm&ma111f3pp5394b64d91232';
 
 
@@ -71,6 +71,42 @@ export async function changePassword(req: Request, res: Response): Promise<any> 
          return res.json('Ingresa nueva contrasena');
      }
     
+ }
+
+
+ export async function sendMail(req: Request, res: Response): Promise<any> {
+  console.log(req.body);
+  var email = req.body.email;
+  var link = req.body.link;
+  var texto = "Si desea cambiar la contraseña de su cuenta haga click en el siguiente link: \ " + 
+              " " + link;
+  var transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      post: 465,
+      secure:false,
+      auth: {
+          user:"elayyuwoky@gmail.com",
+          pass:"sexirulo09",
+
+      }
+  });
+  var mailOptions = {
+      from: "Remitente",
+      to: email,
+      subject: "Recuperar contraseña",
+      text: texto
+  }
+
+  transporter.sendMail(mailOptions, (error: { message: any; }, info: any) => {
+      if(error){
+          res.status(500).send(error.message);
+      }else{
+          console.log("Email enviado");
+          res.status(200).jsonp(req.body);
+      }
+  })
+    
+
  }
 
 async function encrypt(token: string): Promise<string>{

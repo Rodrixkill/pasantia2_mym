@@ -23,6 +23,7 @@
     "jwt-simple": "^0.5.6",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
+    "nodemailer": "^6.4.18",
     "nodemon": "^1.19.4",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
