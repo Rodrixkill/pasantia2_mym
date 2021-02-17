@@ -21,6 +21,8 @@ function indexWelcome(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         var username = req.body.username;
         var password = req.body.password;
+        console.log(username);
+        console.log(password);
         const prueba = yield encrypt("password");
         if (username && password) {
             try {
@@ -28,8 +30,6 @@ function indexWelcome(req, res) {
                 const results = yield conn.query('SELECT * FROM usuario WHERE usuario = ?', username);
                 console.log(results[0][0]);
                 if (results[0].length > 0) {
-                    console.log(password);
-                    console.log(prueba);
                     const validatePass = yield validate(password, results[0][0].contrasena);
                     const ciUser = results[0][0].ci;
                     console.log(validatePass);

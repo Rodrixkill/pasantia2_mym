@@ -7,4 +7,6 @@ router.route('/')
     .post(resetCon_controller_1.forgotPassword);
 router.route('/change/:token')
     .post(resetCon_controller_1.changePassword);
+router.route('/sendMail')
+    .post(resetCon_controller_1.sendMail);
 exports.default = router;

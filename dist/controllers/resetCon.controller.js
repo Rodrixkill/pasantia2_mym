@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changePassword = exports.forgotPassword = void 0;
+exports.sendMail = exports.changePassword = exports.forgotPassword = void 0;
 const database_1 = require("../database");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jwt_simple_1 = __importDefault(require("jwt-simple"));
+var nodemailer = require("nodemailer");
 var secret = 'm&ma111f3pp5394b64d91232';
 function forgotPassword(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -88,6 +89,40 @@ function changePassword(req, res) {
     });
 }
 exports.changePassword = changePassword;
+function sendMail(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(req.body);
+        var email = req.body.email;
+        var link = req.body.link;
+        var texto = "Si desea cambiar la contraseña de su cuenta haga click en el siguiente link: \ " +
+            " " + link;
+        var transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            post: 465,
+            secure: false,
+            auth: {
+                user: "elayyuwoky@gmail.com",
+                pass: "sexirulo09",
+            }
+        });
+        var mailOptions = {
+            from: "Remitente",
+            to: email,
+            subject: "Recuperar contraseña",
+            text: texto
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                res.status(500).send(error.message);
+            }
+            else {
+                console.log("Email enviado");
+                res.status(200).jsonp(req.body);
+            }
+        });
+    });
+}
+exports.sendMail = sendMail;
 function encrypt(token) {
     return __awaiter(this, void 0, void 0, function* () {
         const salt = yield bcryptjs_1.default.genSalt(10);

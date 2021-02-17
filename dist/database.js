@@ -16,7 +16,7 @@ function connect() {
         const connection = yield promise_1.createPool({
             host: 'mysql.sistema.mym.com.bo',
             user: 'mymcombo',
-            password: 'vkLY!Wzh',
+            password: 'desarrollo2021',
             database: 'mysqlsistema'
             /*
             host: 'localhost',

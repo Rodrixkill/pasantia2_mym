@@ -11,7 +11,7 @@ router.route('/:id')
     .delete(trabajador_controller_1.deleteTrabajador)
     .put(trabajador_controller_1.updateTrabajador);
 router.route('/empresa/:empresa')
-    .delete(trabajador_controller_1.getTrabajadorByEmpresa);
+    .get(trabajador_controller_1.getTrabajadorByEmpresa);
 router.route('/empresa/:empresa/gestion/:gestion')
-    .delete(trabajador_controller_1.getTrabajadorByEmpresa);
+    .get(trabajador_controller_1.getTrabajadorByEmpresa);
 exports.default = router;
