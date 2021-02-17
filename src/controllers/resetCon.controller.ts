@@ -86,7 +86,7 @@ export async function changePassword(req: Request, res: Response): Promise<any> 
       secure:false,
       auth: {
           user:"aisonotificacion@gmail.com",
-          pass:"Ainso2021",
+          pass:"wgzwtywtuwdnnnhs",
 
       }
   });
