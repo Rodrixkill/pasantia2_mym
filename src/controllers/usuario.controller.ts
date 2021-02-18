@@ -91,7 +91,17 @@ export async function newPassword(req: Request, res: Response) {
         return res.json(e);
     }
 }
-
+export async function getUsuarioByEmpresa(req: Request, res: Response) {
+    const empresa = req.params.empresa;
+    try {
+        const conn = await connect();
+        const posts = await conn.query('SELECT * FROM usuario WHERE empresa = ?', [empresa]);
+        res.json(posts[0]);
+    } catch (e) {
+        console.log(e)
+        return res.json(e);
+    }
+}
 
 async function encrypt(pass: string): Promise<string>{
     const salt = await bcrypt.genSalt(10);
