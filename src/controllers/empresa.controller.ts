@@ -47,6 +47,9 @@ export async function deleteEmpresa(req: Request, res: Response) {
     const id = req.params.id;
     try {
         const conn = await connect();
+        const results2 = await conn.query('DELETE FROM gestion WHERE empresa = ?', [id]);
+        const results3 = await conn.query('DELETE FROM trabajador WHERE empresa = ?', [id]);
+        const results4 = await conn.query('DELETE FROM usuario WHERE empresa = ?', [id]);
         const results = await conn.query('DELETE FROM empresa WHERE id = ?', [id]);
         res.json({
             message: results
