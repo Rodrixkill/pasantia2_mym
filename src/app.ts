@@ -1,5 +1,7 @@
 import express, { Application } from 'express'
 import morgan from 'morgan'
+import https, { Server } from 'https'
+import fs from 'fs'
 
 // Routes
 import IndexRoutes from './routes/index.routes'
@@ -11,52 +13,63 @@ import GestionRoutes from './routes/gestion.routes'
 import ContrasenaRoutes from './routes/contrasena.routes'
 import cors from 'cors'
 // middleware
-import {requireJwtMiddleware} from './jwt-simple/customMiddleware'
+import { requireJwtMiddleware } from './jwt-simple/customMiddleware'
+import util from 'util'
+import { server } from 'typescript'
+const readFile = util.promisify(fs.readFile);
 
 export class App {
-    app: Application;
+    app: https.Server | undefined;
+    express: Application;
+    key = fs.readFileSync('./security/key.pem');
+    cert = fs.readFileSync('./security/cert.pem');
+
 
     constructor(
         private port?: number | string
     ) {
-        this.app = express();
+        this.express = express();
         this.settings();
         this.middlewares();
         this.routes();
     }
 
     private settings() {
-        this.app.set('port', this.port || process.env.PORT || 3000);
+        this.express.set('port', this.port || process.env.PORT || 8443);
     }
 
     private middlewares() {
-        this.app.use(cors({
-            allowedHeaders: ['X-JWT-Token','Content-Type','access-control-allow-headers','Content-length'],
-            exposedHeaders: ['X-JWT-Token','X-Renewed-JWT-Token'],
-            methods:['POST','GET','DELETE','PUT']
+        this.express.use(cors({
+            allowedHeaders: ['X-JWT-Token', 'Content-Type', 'access-control-allow-headers', 'Content-length'],
+            exposedHeaders: ['X-JWT-Token', 'X-Renewed-JWT-Token'],
+            methods: ['POST', 'GET', 'DELETE', 'PUT']
         }));
-        this.app.use(morgan('dev'));
-        this.app.use(express.json());
+        this.express.use(morgan('dev'));
+        this.express.use(express.json());
     }
 
     private routes() {
-        this.app.use('/posts',requireJwtMiddleware);
-        this.app.use('/empresa', requireJwtMiddleware);
-        this.app.use('/usuario', requireJwtMiddleware);
-        this.app.use('/gestion', requireJwtMiddleware);
-        this.app.use('/trabajador', requireJwtMiddleware);
-        this.app.use(IndexRoutes);
-        this.app.use('/posts', PostRoutes);
-        this.app.use('/contrasena', ContrasenaRoutes);
-        this.app.use('/empresa', EmpresaRoutes);
-        this.app.use('/usuario', UsuarioRoutes);
-        this.app.use('/gestion', GestionRoutes);
-        this.app.use('/trabajador', TrabajadorRoutes);
+        this.express.use('/posts', requireJwtMiddleware);
+        this.express.use('/empresa', requireJwtMiddleware);
+        this.express.use('/usuario', requireJwtMiddleware);
+        this.express.use('/gestion', requireJwtMiddleware);
+        this.express.use('/trabajador', requireJwtMiddleware);
+        this.express.use(IndexRoutes);
+        this.express.use('/posts', PostRoutes);
+        this.express.use('/contrasena', ContrasenaRoutes);
+        this.express.use('/empresa', EmpresaRoutes);
+        this.express.use('/usuario', UsuarioRoutes);
+        this.express.use('/gestion', GestionRoutes);
+        this.express.use('/trabajador', TrabajadorRoutes);
     }
 
-    async listen(): Promise<void> {
-        await this.app.listen(this.app.get('port'));
-        console.log('Server on port', this.app.get('port'));
+    listen() {
+        const server = https.createServer({key: this.key, cert: this.cert }, this.express).listen(this.express.get('port'));
+        
+        
     }
 
 }
+
+
+
