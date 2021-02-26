@@ -12,4 +12,6 @@ router.route('/:id')
     .put(usuario_controller_1.updateUsuario);
 router.route('/pwd')
     .put(usuario_controller_1.newPassword);
+router.route('/empresa/:empresa')
+    .get(usuario_controller_1.getUsuarioByEmpresa);
 exports.default = router;

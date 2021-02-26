@@ -64,6 +64,7 @@ function deleteTrabajador(req, res) {
         const id = req.params.id;
         try {
             const conn = yield database_1.connect();
+            const results2 = yield conn.query('DELETE FROM gestion WHERE ci = ?', [id]);
             const results = yield conn.query('DELETE FROM trabajador WHERE ci = ?', [id]);
             res.json({
                 message: results

@@ -101,8 +101,8 @@ function sendMail(req, res) {
             post: 465,
             secure: false,
             auth: {
-                user: "elayyuwoky@gmail.com",
-                pass: "sexirulo09",
+                user: "aisonotificacion@gmail.com",
+                pass: "wgzwtywtuwdnnnhs",
             }
         });
         var mailOptions = {

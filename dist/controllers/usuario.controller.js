@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.newPassword = exports.updateUsuario = exports.deleteUsuario = exports.getUsuario = exports.createUsuario = exports.getUsuarios = void 0;
+exports.getUsuarioByEmpresa = exports.newPassword = exports.updateUsuario = exports.deleteUsuario = exports.getUsuario = exports.createUsuario = exports.getUsuarios = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 // DB
 const database_1 = require("../database");
@@ -116,6 +116,21 @@ function newPassword(req, res) {
     });
 }
 exports.newPassword = newPassword;
+function getUsuarioByEmpresa(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const empresa = req.params.empresa;
+        try {
+            const conn = yield database_1.connect();
+            const posts = yield conn.query('SELECT * FROM usuario WHERE empresa = ?', [empresa]);
+            res.json(posts[0]);
+        }
+        catch (e) {
+            console.log(e);
+            return res.json(e);
+        }
+    });
+}
+exports.getUsuarioByEmpresa = getUsuarioByEmpresa;
 function encrypt(pass) {
     return __awaiter(this, void 0, void 0, function* () {
         const salt = yield bcryptjs_1.default.genSalt(10);

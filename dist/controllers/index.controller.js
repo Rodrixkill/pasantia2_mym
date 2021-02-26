@@ -38,7 +38,7 @@ function indexWelcome(req, res) {
                             ci: ciUser,
                             username: username
                         });
-                        return res.status(201).json([session, results[0][0].permisos]);
+                        return res.status(201).json([session, results[0][0].permisos, results[0][0].empresa]);
                     }
                     else {
                         return res.json('Contraseña incorrecta');
